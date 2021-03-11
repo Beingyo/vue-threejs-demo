@@ -2,12 +2,19 @@
   <div>
     <el-row :gutter="10">
       <el-col :span="3":offset="2"><div class="grid-content bg-purple"><span id="demo" @click="routeLink">demo</span></div></el-col>
-      <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="test" @click="routeLink">test</span></div></el-col>
+      <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="demo1" @click="routeLink">demo1</span></div></el-col>
+      <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="demo2" @click="routeLink">demo2</span></div></el-col>
+      <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="demo3" @click="routeLink">demo3</span></div></el-col>
+      <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="demo4" @click="routeLink">demo4</span></div></el-col>
+    </el-row>
+
+    <el-row :gutter="10">
+      <el-col :span="3":offset="2"><div class="grid-content bg-purple"><span id="demo5" @click="routeLink">demo5</span></div></el-col>
+      <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="" @click="routeLink">0</span></div></el-col>
       <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="" @click="routeLink">0</span></div></el-col>
       <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="" @click="routeLink">0</span></div></el-col>
       <el-col :span="3":offset="1"><div class="grid-content bg-purple"><span id="" @click="routeLink">0</span></div></el-col>
     </el-row>
-
 
   </div>
 </template>
@@ -25,7 +32,7 @@ export default {
     }
   },
   created() {
-    this.$router.push({path:'/test' })
+    // this.$router.push({path:'/test' })
   }
 }
 </script>
