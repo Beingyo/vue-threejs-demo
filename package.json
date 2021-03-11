@@ -2,7 +2,7 @@
   "name": "vue-test-template",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "游俊源 <413009063@qq.com>",
+  "author": "413009063 <413009063@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
