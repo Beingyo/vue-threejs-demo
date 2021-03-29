@@ -30,8 +30,17 @@
         this.scene = new THREE.Scene();
         // 定义物体
         let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+        // 加载图片
+        var textureCube = new THREE.CubeTextureLoader()
+          .setPath('../../static/demo9/')
+          .load(['metalnessMap.jpg', 'metalnessMap.jpg', 'metalnessMap.jpg', 'metalnessMap.jpg', 'metalnessMap.jpg', 'metalnessMap.jpg']);
         // 定义材质
-        let material = new THREE.MeshNormalMaterial();
+        let material = new THREE.MeshPhongMaterial({
+          // 设置环境贴图
+          envMap: textureCube,
+          // 反射程度, 从 0.0 到1.0.默认0.5，这模拟了非金属材料的反射率。 当metalness为1.0时无效
+          reflectivity: 0.7,
+        });
         // 加载物体与材质
         this.mesh = new THREE.Mesh(geometry, material);
         this.scene.add(this.mesh);
@@ -42,7 +51,7 @@
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setSize(container.clientWidth, container.clientHeight);
         // 设置背景颜色
-        // this.renderer.setClearColor('#000000', 1);
+        // this.renderer.setClearColor('#b9d3ff', 1);
 
 
         container.appendChild(this.renderer.domElement);
@@ -52,7 +61,7 @@
       animate: function () {
         requestAnimationFrame(this.animate);
         this.mesh.rotation.x += 0.01;
-        this.mesh.rotation.y += 0.02;
+        this.mesh.rotation.y += 0.01;
         this.renderer.render(this.scene, this.camera);
       }
     },

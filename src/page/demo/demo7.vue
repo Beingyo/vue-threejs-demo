@@ -16,6 +16,7 @@
         renderer: null,
         mesh: null,
         controls: null,
+        angle: 0,
       }
     },
     methods: {
@@ -29,9 +30,11 @@
         // 定义场景
         this.scene = new THREE.Scene();
         // 定义物体
-        let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+        let geometry = new THREE.SphereGeometry(0.15, 50, 50);
+        // 获取图片
+        var solid = new THREE.TextureLoader().load('../../static/demo7/solid.jpg');
         // 定义材质
-        let material = new THREE.MeshNormalMaterial();
+        let material = new THREE.MeshLambertMaterial({map: solid});
         // 加载物体与材质
         this.mesh = new THREE.Mesh(geometry, material);
         this.scene.add(this.mesh);
@@ -41,8 +44,6 @@
         // 渲染器
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setSize(container.clientWidth, container.clientHeight);
-        // 设置背景颜色
-        // this.renderer.setClearColor('#000000', 1);
 
 
         container.appendChild(this.renderer.domElement);
@@ -51,8 +52,16 @@
       },
       animate: function () {
         requestAnimationFrame(this.animate);
+        // 自转
         this.mesh.rotation.x += 0.01;
         this.mesh.rotation.y += 0.02;
+        // 圆周运动速度
+        this.angle += 0.02;
+        // 圆周运动网格模型x坐标计算
+        var x = 0.4 * Math.sin(this.angle)
+        // 圆周运动网格模型z坐标计算
+        var z = 0.4 * Math.cos(this.angle)
+        this.mesh.position.set(x, 0, z);
         this.renderer.render(this.scene, this.camera);
       }
     },

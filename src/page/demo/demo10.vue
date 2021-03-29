@@ -16,20 +16,32 @@
         renderer: null,
         mesh: null,
         controls: null,
+        points: null,
+        count: 0,
       }
     },
     methods: {
       init: function () {
         let container = document.getElementById('container');
-
-
         // 定义相机
-        this.camera = new THREE.PerspectiveCamera(70, container.clientWidth / container.clientHeight, 0.01, 10);
-        this.camera.position.set(0.5, 0.5, 1);
+        this.camera = new THREE.PerspectiveCamera(60, container.clientWidth/container.clientHeight, 1, 1000);
+        this.camera.position.set(0,0,250);
         // 定义场景
         this.scene = new THREE.Scene();
+        // 三维样条曲线CatmullRomCurve3创建一个曲线路径
+        var curve = new THREE.CatmullRomCurve3([
+          new THREE.Vector3(-500, 200, 900),
+          new THREE.Vector3(-100, 400, 400),
+          new THREE.Vector3(0, 0, 0),
+          new THREE.Vector3(600, -600, 0),
+          new THREE.Vector3(900, -400, 600),
+          new THREE.Vector3(1200, -200, 300),
+        ]);
+        // 从曲线上获得501个顶点，数量根据需要自己设置
+        this.points = curve.getPoints(500);
+
         // 定义物体
-        let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+        let geometry = new THREE.TubeGeometry(curve, 200, 30, 50);
         // 定义材质
         let material = new THREE.MeshNormalMaterial();
         // 加载物体与材质
@@ -42,17 +54,22 @@
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setSize(container.clientWidth, container.clientHeight);
         // 设置背景颜色
-        // this.renderer.setClearColor('#000000', 1);
-
+        // this.renderer.setClearColor('#ffffff', 1);
 
         container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
 
+
       },
       animate: function () {
         requestAnimationFrame(this.animate);
-        this.mesh.rotation.x += 0.01;
-        this.mesh.rotation.y += 0.02;
+        if (this.count <= this.points.length) {
+          this.count ++
+        } else {
+          this.count = 0
+        }
+        this.camera.position.set(this.points[this.count].x, this.points[this.count].y, this.points[this.count].z);
+        this.camera.lookAt(new THREE.Vector3(this.points[this.count + 1].x, this.points[this.count + 1].y, this.points[this.count + 1].z));
         this.renderer.render(this.scene, this.camera);
       }
     },
@@ -65,7 +82,7 @@
 <style scoped>
   #container {
     margin: 0 auto 0 0;
-    width: 600px;
-    height: 400px;
+    width: 920px;
+    height: 760px;
   }
 </style>

@@ -29,21 +29,31 @@
         // 定义场景
         this.scene = new THREE.Scene();
         // 定义物体
-        let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+        let geometry = new THREE.PlaneGeometry(0.25, 1);
+        // 获取图片
+        var light = new THREE.TextureLoader().load('../../static/demo6/light.png');
         // 定义材质
-        let material = new THREE.MeshNormalMaterial();
+        let material = new THREE.MeshPhongMaterial({
+          map: light,
+          // 双面显示
+          side: THREE.DoubleSide,
+          // 开启透明效果，否则颜色贴图map的透明不起作用
+          transparent: true,
+        });
         // 加载物体与材质
-        this.mesh = new THREE.Mesh(geometry, material);
-        this.scene.add(this.mesh);
+        var materialA = new THREE.Mesh(geometry, material);
+        var materialB = materialA.clone().rotateY(Math.PI / 2)
+        // var groupMesh= new THREE.Group()
+        // groupMesh.add(materialA,materialB)
+        this.scene.add(materialA)
+        this.scene.add(materialB)
         // 加载环境光
-        var light = new THREE.AmbientLight('#ffffff', 0.9);
-        this.scene.add(light);
+        var light = new THREE.AmbientLight('#ffffff', 1);
+        this.scene.add(light)
         // 渲染器
         this.renderer = new THREE.WebGLRenderer({antialias: true});
         this.renderer.setSize(container.clientWidth, container.clientHeight);
-        // 设置背景颜色
-        // this.renderer.setClearColor('#000000', 1);
-
+        // this.renderer.setClearColor('#b9d3ff', 1); //设置背景颜色
 
         container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -51,8 +61,6 @@
       },
       animate: function () {
         requestAnimationFrame(this.animate);
-        this.mesh.rotation.x += 0.01;
-        this.mesh.rotation.y += 0.02;
         this.renderer.render(this.scene, this.camera);
       }
     },
