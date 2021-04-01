@@ -11,12 +11,12 @@
   export default {
     data() {
       return {
-        camera: null,
-        scene: null,
-        renderer: null,
-        mesh: null,
-        controls: null,
-        points: null,
+        // camera: null,
+        // scene: null,
+        // renderer: null,
+        // mesh: null,
+        // controls: null,
+        // points: null,
         count: 0,
       }
     },
@@ -74,8 +74,22 @@
       }
     },
     mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.points;
       this.init();
       this.animate()
+    },
+    beforeDestroy() {
+      this.camera = null;
+      this.scene = null;
+      this.renderer = null;
+      this.mesh = null;
+      this.controls = null;
+      this.points = null;
     }
   }
 </script>

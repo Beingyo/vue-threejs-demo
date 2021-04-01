@@ -12,16 +12,16 @@
   export default {
     data() {
       return {
-        camera: null,
-        scene: null,
-        renderer: null,
-        mesh: null,
-        controls: null,
-        light: null,
+        // camera: null,
+        // scene: null,
+        // renderer: null,
+        // mesh: null,
+        // controls: null,
+        // light: null,
       }
     },
     methods: {
-      init: function() {
+      init() {
         let container = document.getElementById('container');
 
 
@@ -83,7 +83,7 @@
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
 
       },
-      animate: function() {
+      animate() {
         requestAnimationFrame(this.animate);
         // this.mesh.rotation.x += 0.01;
         // this.mesh.rotation.y += 0.02;
@@ -91,8 +91,22 @@
       }
     },
     mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.light;
       this.init();
       this.animate()
+    },
+    beforeDestroy() {
+      this.camera = null;
+      this.scene = null;
+      this.renderer = null;
+      this.mesh = null;
+      this.controls = null;
+      this.light = null;
     }
   }
 </script>

@@ -20,6 +20,12 @@ export default new Router({
     {path: '/demo9', name: 'demo9', meta: {title: 'demo9'}, component: () => import('@/page/demo/demo9')},
     {path: '/demo10', name: 'demo10', meta: {title: 'demo10'}, component: () => import('@/page/demo/demo10')},
     {path: '/demo11', name: 'demo11', meta: {title: 'demo11'}, component: () => import('@/page/demo/demo11')},
+    {path: '/demo12', name: 'demo12', meta: {title: 'demo12'}, component: () => import('@/page/demo/demo12')},
+    {path: '/demo13', name: 'demo13', meta: {title: 'demo13'}, component: () => import('@/page/demo/demo13')},
+    {path: '/demo14', name: 'demo14', meta: {title: 'demo14'}, component: () => import('@/page/demo/demo14')},
+    {path: '/demo15', name: 'demo15', meta: {title: 'demo15'}, component: () => import('@/page/demo/demo15')},
+    {path: '/demo16', name: 'demo16', meta: {title: 'demo16'}, component: () => import('@/page/demo/demo16')},
+    {path: '/demo17', name: 'demo17', meta: {title: 'demo17'}, component: () => import('@/page/demo/demo17')},
 
     {path: '/test1', name: 'test1', component: test1}
   ]

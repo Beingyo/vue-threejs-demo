@@ -12,12 +12,6 @@
   export default {
     data() {
       return {
-        // camera: null,
-        // scene: null,
-        // renderer: null,
-        // mesh: null,
-        // controls: null,
-        // light: null,
       }
     },
     methods: {
