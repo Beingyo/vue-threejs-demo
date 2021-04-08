@@ -59,10 +59,10 @@
       },
       animate() {
         requestAnimationFrame(this.animate);
-        this.meshA.rotation.x += 0.01;
-        this.meshA.rotation.y += 0.02;
-        this.meshB.rotation.z += 0.02;
-        this.meshB.rotation.y += 0.01;
+        // this.meshA.rotation.x += 0.01;
+        // this.meshA.rotation.y += 0.02;
+        // this.meshB.rotation.z += 0.02;
+        // this.meshB.rotation.y += 0.01;
         this.renderer.render(this.scene, this.camera);
       },
       createCanvasA(w, h) {

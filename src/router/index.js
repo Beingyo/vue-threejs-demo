@@ -26,6 +26,9 @@ export default new Router({
     {path: '/demo15', name: 'demo15', meta: {title: 'demo15'}, component: () => import('@/page/demo/demo15')},
     {path: '/demo16', name: 'demo16', meta: {title: 'demo16'}, component: () => import('@/page/demo/demo16')},
     {path: '/demo17', name: 'demo17', meta: {title: 'demo17'}, component: () => import('@/page/demo/demo17')},
+    {path: '/demo18', name: 'demo18', meta: {title: 'demo18'}, component: () => import('@/page/demo/demo18')},
+    {path: '/demo19', name: 'demo19', meta: {title: 'demo19'}, component: () => import('@/page/demo/demo19')},
+    {path: '/demo20', name: 'demo20', meta: {title: 'demo20'}, component: () => import('@/page/demo/demo20')},
 
     {path: '/test1', name: 'test1', component: test1}
   ]

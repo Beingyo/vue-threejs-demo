@@ -27,9 +27,17 @@
     <el-row :gutter="10">
       <el-col :span="3" :offset="2"><div class="grid-content bg-purple"><span id="demo15" @click="routeLink">demo15</span></div></el-col>
       <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo16" @click="routeLink">demo16</span></div></el-col>
-<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo17" @click="routeLink">demo17</span></div></el-col>-->
-<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="" @click="routeLink">0</span></div></el-col>-->
-<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="" @click="routeLink">0</span></div></el-col>-->
+      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo17" @click="routeLink">demo17</span></div></el-col>
+      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo18" @click="routeLink">demo18</span></div></el-col>
+      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo19" @click="routeLink">demo19</span></div></el-col>
+    </el-row>
+
+    <el-row :gutter="10">
+      <el-col :span="3" :offset="2"><div class="grid-content bg-purple"><span id="demo20" @click="routeLink">demo20</span></div></el-col>
+<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo21" @click="routeLink">demo21</span></div></el-col>-->
+<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo22" @click="routeLink">demo22</span></div></el-col>-->
+<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo23" @click="routeLink">demo23</span></div></el-col>-->
+<!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo24" @click="routeLink">demo24</span></div></el-col>-->
     </el-row>
 
   </div>
