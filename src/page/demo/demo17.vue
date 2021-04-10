@@ -9,7 +9,6 @@
   import * as THREE from 'three'
   import {OrbitControls} from "three/examples/jsm/controls/OrbitControls"
   import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js'
-  import {STLLoader} from 'three/examples/jsm/loaders/STLLoader.js'
 
   export default {
     data() {
@@ -42,23 +41,6 @@
           this.scene.add(obj)
         })
 
-        // 加载stl模型
-        // const loader = new STLLoader()
-        // loader.load(
-        //   '../../static/demo17/111.stl',
-        //   geometry => {
-        //     geometry.center();
-        //     geometry.rotateX(-Math.PI / 2);
-        //     // 创建材质
-        //     const material = new THREE.MeshPhongMaterial({
-        //       map: new THREE.CanvasTexture(this.createCanvas())
-        //     });
-        //     this.mesh = new THREE.Mesh(geometry, material)
-        //     this.mesh.scale.set(0.04, 0.04, 0.04)
-        //     this.scene.add(this.mesh)
-        //   }
-        // )
-
         // 控制器
         container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -79,9 +61,10 @@
         c.beginPath();
         // 文字
         c.beginPath();
+        // c.translate(60,240); //x=20, y=90
         c.translate(220,300); //x=20, y=90
         c.fillStyle = "#000000"; //文本填充颜色
-        c.font = "bold 20px 宋体"; //字体样式设置
+        c.font = "bold 24px 宋体"; //字体样式设置
         // c.textBaseline = "middle"; //文本与fillText定义的纵坐标
         // c.textAlign = "center"; //文本居中(以fillText定义的横坐标)
         c.rotate(- Math.PI/2);
@@ -104,7 +87,7 @@
         c.beginPath();
         c.translate(220,300); //x=20, y=90
         c.fillStyle = "#000000"; //文本填充颜色
-        c.font = "bold 20px 宋体"; //字体样式设置
+        c.font = "bold 24px 宋体"; //字体样式设置
         // c.textBaseline = "middle"; //文本与fillText定义的纵坐标
         // c.textAlign = "center"; //文本居中(以fillText定义的横坐标)
         c.rotate(- Math.PI/2);

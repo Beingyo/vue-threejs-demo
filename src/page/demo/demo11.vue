@@ -23,8 +23,6 @@
     methods: {
       init() {
         let container = document.getElementById('container');
-
-
         // 定义相机
         var width = window.innerWidth; // 窗口宽度
         var height = window.innerHeight; // 窗口高度
@@ -34,43 +32,40 @@
         this.camera.position.set(200, 300, 200);
         // 定义场景
         this.scene = new THREE.Scene();
-        // 定义物体
-        let geometry = new THREE.BoxGeometry(100, 100, 100);
-        // 物体 材质
-        let material = new THREE.MeshLambertMaterial({
+        // 定义半球光
+        var light = new THREE.HemisphereLight("#E9E9E9", "#505050");
+        light.position.set(0, 200, -200);
+        this.scene.add(light);
+        // 渲染器
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setSize(container.clientWidth, container.clientHeight);// 设置渲染区域尺寸
+        this.renderer.setClearColor('#b9d3ff', 1); // 设置背景颜色
+
+
+        // 定义多面体体
+        let geometryDode = new THREE.DodecahedronGeometry(50,0);
+        // 物体材质
+        let materialDode = new THREE.MeshLambertMaterial({
           color: '#e0f2fd',
           transparent: true,
           opacity: 0.7
         })
         // 网格模型
-        this.mesh = new THREE.Mesh(geometry, material);
+        this.mesh = new THREE.Mesh(geometryDode, materialDode);
         this.scene.add(this.mesh);
 
 
-        // 定义物体
-        let geometry1 = new THREE.BoxGeometry(150, 150, 150);
-        // 物体 材质
-        let material1 = new THREE.MeshLambertMaterial({
-          color: '#020202',
+        // 定义正方体
+        let geometryBox = new THREE.BoxGeometry(150, 150, 150);
+        // 物体材质
+        let materialBox = new THREE.MeshLambertMaterial({
+          color: '#ffd5d5',
           transparent: true,
           opacity: 0.2
         })
         // 网格模型
-        this.mesh = new THREE.Mesh(geometry1, material1);
+        this.mesh = new THREE.Mesh(geometryBox, materialBox);
         this.scene.add(this.mesh);
-
-
-        // 点光源
-        this.light = new THREE.PointLight('#ffffff');
-        this.light.position.set(400, 200, 300); //点光源位置
-        this.scene.add(this.light); //点光源添加到场景中
-        // 环境光
-        this.light = new THREE.AmbientLight('#959595');
-        this.scene.add(this.light);
-        // 渲染器
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize(container.clientWidth, container.clientHeight);// 设置渲染区域尺寸
-        this.renderer.setClearColor('#b9d3ff', 1); // 设置背景颜色
 
 
         container.appendChild(this.renderer.domElement);
@@ -86,6 +81,7 @@
     },
     mounted() {
       this.camera;
+
       this.scene;
       this.renderer;
       this.mesh;

@@ -60,12 +60,14 @@
         // this.mesh.rotation.y += 0.02;
         this.renderer.render(this.scene, this.camera);
       },
+      // 屏幕自适应
       onWindowResize() {
         console.log('onWindowResize')
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
       },
+      // 鼠标点击事件
       onDocumentMouseMove(event) {
         event.preventDefault();
         if (this.selectedObject) {

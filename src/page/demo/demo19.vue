@@ -10,14 +10,16 @@
 
   export default {
     data() {
-      return {}
+      return {
+        step: 0.005
+      }
     },
     methods: {
       init() {
         let container = document.getElementById('container');
         // 定义相机
-        this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 5000);
-        this.camera.position.set(0, 1000, 2500);
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 5000);
+        this.camera.position.set(0, 400, 1000);
         this.camera.lookAt(new THREE.Vector3(0, 0, 0));
         // 定义场景
         this.scene = new THREE.Scene();
@@ -25,12 +27,7 @@
         this.scene.fog = new THREE.Fog('#050505', 2000, 3500);
         // 渲染器
         this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
-        // this.renderer.setClearColor('#b9d3ff', 1); // 设置背景颜色
-        // 定义半球光
-        var light = new THREE.HemisphereLight("#E9E9E9", "#505050");
-        light.position.set(0, 200, -200);
-        this.scene.add(light);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
 
         // 加载物体
         this.initGeometry()
@@ -38,12 +35,15 @@
         // 控制器
         container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+
+        window.addEventListener( 'resize', this.onWindowResize, false );
+
         // 添加惯性
         this.controls.enableDamping = true;
       },
       initGeometry() {
-        /* 50000个点 */
-        let particles = 50000;
+        /* 500000个点 */
+        let particles = 500000;
         /* 存放粒子数据的网格 */
         let geometry = new THREE.BufferGeometry();
         let positions = [];
@@ -89,8 +89,17 @@
 
         this.scene.add(this.points);
       },
+      // 屏幕自适应
+      onWindowResize() {
+        console.log('onWindowResize')
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+      },
       animate() {
         requestAnimationFrame(this.animate);
+        this.points.rotation.x += this.step;
+        this.points.rotation.y += this.step;
         this.renderer.render(this.scene, this.camera);
       }
     },

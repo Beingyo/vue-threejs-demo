@@ -1,7 +1,10 @@
 <template>
   <div style="width: 100%">
     <div id="container"></div>
-    <canvas style="float: left" id="canvas"></canvas>
+    <div style="float: left">
+      <img src="../../../static/demo16/Cat_diffuse.jpg" alt="" style="width: 360px;height: 360px"/>
+      <canvas id="canvas"></canvas>
+    </div>
   </div>
 </template>
 
