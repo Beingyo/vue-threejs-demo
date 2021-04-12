@@ -33,7 +33,7 @@
     </el-row>
 
     <el-row :gutter="10">
-      <el-col :span="3" :offset="2"><div class="grid-content bg-purple"><span id="demo20" @click="routeLink">demo20</span></div></el-col>
+      <el-col :span="3" :offset="2"><div class="grid-content bg-purple"><span id="demo20" @click="routeLink">绘制地图</span></div></el-col>
 <!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo21" @click="routeLink">demo21</span></div></el-col>-->
 <!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo22" @click="routeLink">demo22</span></div></el-col>-->
 <!--      <el-col :span="3" :offset="1"><div class="grid-content bg-purple"><span id="demo23" @click="routeLink">demo23</span></div></el-col>-->

@@ -1,9 +1,9 @@
 <template>
-  <div style="width: 100%">
+  <div>
     <div id="container"></div>
-    <div style="float: left">
-      <img src="../../../static/demo16/Cat_diffuse.jpg" alt="" style="width: 360px;height: 360px"/>
-      <canvas id="canvas"></canvas>
+    <div style="position: absolute;top: 10px;left: 10px;">
+      <img src="../../../static/demo16/Cat_diffuse.jpg" alt="" style="width: 200px;height: 200px"/>
+      <canvas id="canvas" style="height: 200px;width: 200px;"></canvas>
     </div>
   </div>
 </template>
@@ -14,25 +14,54 @@
   import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js'
 
   export default {
-    data() {
-      return {}
+    mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.light;
+      this.line;
+      this.init();
+      this.animate()
+      this.draw()
     },
     methods: {
       init() {
         let container = document.getElementById('container');
-        // 定义相机
-        this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.25, 100);
+        this.initCamera()
+        this.initScene()
+        this.initRenderer()
+        this.initLight()
+        this.initMesh()
+        container.appendChild(this.renderer.domElement);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+        window.addEventListener( 'resize', this.onWindowResize, false );
+      },
+      // 定义相机
+      initCamera() {
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.25, 100);
         this.camera.position.set(11, 3, 5);
-        // 定义场景
+      },
+      // 定义场景
+      initScene() {
         this.scene = new THREE.Scene();
-        // 渲染器
+      },
+      // 定义渲染器
+      initRenderer() {
         this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor('#b9d3ff', 1); // 设置背景颜色
-        // 定义半球光
+      },
+      // 定义灯光
+      initLight() {
+        //半球光
         var light = new THREE.HemisphereLight("#E9E9E9", "#505050");
         light.position.set(0, 200, -200);
         this.scene.add(light);
+      },
+      // 定义物体
+      initMesh() {
         // 加载obj模型(有皮)
         new OBJLoader().load('../../static/demo16/Cat_v1_l3.obj' , obj => {
           obj.position.set(-4, -2.5, 2)
@@ -43,7 +72,6 @@
           obj.children[0].material.needsUpdate = true;
           this.scene.add(obj)
         })
-
         // 加载obj模型
         new OBJLoader().load('../../static/demo16/Cat_v1_l3.obj' , obj => {
           obj.position.set(2, -2.5, -2)
@@ -54,11 +82,13 @@
           obj.children[0].material.needsUpdate=true;
           this.scene.add(obj)
         })
-
-        // 控制器
-        container.appendChild(this.renderer.domElement);
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-
+      },
+      // 屏幕自适应
+      onWindowResize() {
+        console.log('onWindowResize')
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
       },
       animate() {
         requestAnimationFrame(this.animate);
@@ -110,18 +140,6 @@
         // document.body.appendChild(canvas)
       }
     },
-    mounted() {
-      this.camera;
-      this.scene;
-      this.renderer;
-      this.mesh;
-      this.controls;
-      this.light;
-      this.line;
-      this.init();
-      this.animate()
-      this.draw()
-    },
     beforeDestroy() {
       this.camera = null;
       this.scene = null;
@@ -133,10 +151,3 @@
     }
   }
 </script>
-<style scoped>
-  #container {
-    margin: 0 auto 0 0;
-    width: 600px;
-    height: 400px;
-  }
-</style>

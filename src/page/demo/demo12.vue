@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div>
     <div id="container"></div>
   </div>
 </template>
@@ -9,18 +9,49 @@
   import {OrbitControls} from "three/examples/jsm/controls/OrbitControls"
 
   export default {
+    mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.light;
+      this.group;
+      this.selectedObject;
+      this.raycaster = new THREE.Raycaster();
+      this.mouseVector = new THREE.Vector3();
+      this.init();
+      this.animate()
+    },
     methods: {
       init() {
         let container = document.getElementById('container');
-
-        this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color('#ffe0e0');
-
+        this.initCamera()
+        this.initScene()
+        this.initRenderer()
+        this.initMesh()
+        window.addEventListener( 'resize', this.onWindowResize, false );
+        window.addEventListener("mousemove", this.onDocumentMouseMove, false);
+        container.appendChild(this.renderer.domElement);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      },
+      // 定义相机
+      initCamera() {
         this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
         this.camera.position.set(15, 15, 15);
-        this.camera.lookAt(this.scene.position);
-
-
+      },
+      // 定义场景
+      initScene() {
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color('#ffe0e0');
+      },
+      // 定义渲染器
+      initRenderer() {
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+      },
+      initMesh() {
         this.group = new THREE.Group();
         this.scene.add(this.group);
 
@@ -41,24 +72,6 @@
         var group2 = new THREE.Group();
         this.group.add(group2);
         group2.add(circleP1);
-
-
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-        window.addEventListener( 'resize', this.onWindowResize, false );
-        window.addEventListener("mousemove", this.onDocumentMouseMove, false);
-
-
-        container.appendChild(this.renderer.domElement);
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-      },
-      animate() {
-        requestAnimationFrame(this.animate);
-        // this.mesh.rotation.x += 0.01;
-        // this.mesh.rotation.y += 0.02;
-        this.renderer.render(this.scene, this.camera);
       },
       // 屏幕自适应
       onWindowResize() {
@@ -85,6 +98,12 @@
           }
         }
       },
+      animate() {
+        requestAnimationFrame(this.animate);
+        // this.mesh.rotation.x += 0.01;
+        // this.mesh.rotation.y += 0.02;
+        this.renderer.render(this.scene, this.camera);
+      },
       getIntersects(x, y) {
         x = (x / window.innerWidth) * 2 - 1;
         y = -(y / window.innerHeight) * 2 + 1;
@@ -92,20 +111,6 @@
         this.raycaster.setFromCamera(this.mouseVector, this.camera);
         return this.raycaster.intersectObject(this.group, true);
       }
-    },
-    mounted() {
-      this.camera;
-      this.scene;
-      this.renderer;
-      this.mesh;
-      this.controls;
-      this.light;
-      this.group;
-      this.selectedObject;
-      this.raycaster = new THREE.Raycaster();
-      this.mouseVector = new THREE.Vector3();
-      this.init();
-      this.animate()
     },
     beforeDestroy() {
       this.camera = null;
@@ -121,10 +126,3 @@
     }
   }
 </script>
-<style scoped>
-  #container {
-    margin: 0 auto 0 0;
-    width: 600px;
-    height: 400px;
-  }
-</style>

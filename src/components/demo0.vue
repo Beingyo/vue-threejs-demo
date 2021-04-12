@@ -22,7 +22,7 @@
         this.scene = new THREE.Scene();
         // 渲染器
         this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setClearColor('#b9d3ff', 1); // 设置背景颜色
         // 定义半球光
         var light = new THREE.HemisphereLight("#E9E9E9", "#505050");

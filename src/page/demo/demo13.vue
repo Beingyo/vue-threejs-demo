@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div>
     <div id="container"></div>
   </div>
 </template>
@@ -15,27 +15,12 @@
     methods: {
       init() {
         let container = document.getElementById('container');
-        // 创建场景
-        this.scene = new THREE.Scene();
-        // 创建相机(设置相机位置，设置相机朝向)
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.set(10, 50, 50);
-        this.camera.lookAt(this.scene.position);
-        // 创建渲染器
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setClearColor('#EEEEEE');
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        // 创建辅助轴线
-        var axis = new THREE.AxisHelper(100);
-        this.scene.add(axis);
-        // 添加图形---圆柱体
-        let _radius = 5;
-        var cylinderGeometry = new THREE.CylinderGeometry(_radius, _radius, 20, 40, 40);
-        var cylinderMaterial = new THREE.MeshBasicMaterial({color: '#765432'});
-        var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-        this.scene.add(cylinder);
+        this.initScene()
+        this.initCamera()
+        this.initRenderer()
+        this.initMesh()
         // 添加浏览器窗口大小监听事件(画布自适应方法onResize)
-        window.addEventListener('resize', this.onResize, false);
+        window.addEventListener('resize', this.onWindowResize, false);
         // 鼠标点击拾取
         document.addEventListener('click', this.initRay, false);
         // 渲染
@@ -43,17 +28,39 @@
         // this.controls = new OrbitControls(this.camera, this.renderer.domElement)
 
       },
-      animate() {
-        requestAnimationFrame(this.animate);
-        // this.mesh.rotation.x += 0.01;
-        // this.mesh.rotation.y += 0.02;
-        this.renderer.render(this.scene, this.camera);
+      // 定义相机
+      initCamera() {
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.camera.position.set(10, 50, 50);
+        this.camera.lookAt(this.scene.position);
       },
-      // 画布自适应
-      onResize() {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+      // 定义场景
+      initScene() {
+        this.scene = new THREE.Scene();
+        var axis = new THREE.AxisHelper(100);
+        this.scene.add(axis);
+      },
+      // 定义渲染器
+      initRenderer() {
+        this.renderer = new THREE.WebGLRenderer();
+        this.renderer.setClearColor('#EEEEEE');
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+      },
+      // 定义物体
+      initMesh() {
+        // 添加图形---圆柱体
+        let _radius = 5;
+        var cylinderGeometry = new THREE.CylinderGeometry(_radius, _radius, 20, 40, 40);
+        var cylinderMaterial = new THREE.MeshBasicMaterial({color: '#765432'});
+        var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+        this.scene.add(cylinder);
+      },
+      // 屏幕自适应
+      onWindowResize() {
+        console.log('onWindowResize')
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
       },
       // 射线拾取
       initRay(event) {
@@ -90,6 +97,12 @@
         let arrow = new THREE.ArrowHelper(dir, start, 1000, '#0000ff');
         arrow.name = "customRay";
         scene.add(arrow);
+      },
+      animate() {
+        requestAnimationFrame(this.animate);
+        // this.mesh.rotation.x += 0.01;
+        // this.mesh.rotation.y += 0.02;
+        this.renderer.render(this.scene, this.camera);
       }
     },
     mounted() {
@@ -112,10 +125,3 @@
     }
   }
 </script>
-<style scoped>
-  #container {
-    margin: 0 auto 0 0;
-    width: 600px;
-    height: 400px;
-  }
-</style>

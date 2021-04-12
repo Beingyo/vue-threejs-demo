@@ -86,3 +86,7 @@
 > #### 粒子效果
 >
 > ![avatar](https://github.com/Beingyo/imgRepository/blob/main/img/vue-threejs-demo/demo19.png)
+>
+>  #### 绘制地图
+>
+> ![avatar](https://github.com/Beingyo/imgRepository/blob/main/img/vue-threejs-demo/demo20.png)

@@ -1,6 +1,5 @@
-
 <template>
-  <div style="width: 100%">
+  <div>
     <div id="container"></div>
   </div>
 </template>
@@ -10,42 +9,50 @@
   import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
   export default {
-    data() {
-      return {
-        // camera: null,
-        // scene: null,
-        // renderer: null,
-        // mesh: null,
-        // controls: null,
-      }
+    mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.init();
+      this.animate()
     },
     methods: {
       init() {
         let container = document.getElementById('container');
-
-
-        // 定义相机
-        this.camera = new THREE.PerspectiveCamera(70, container.clientWidth/container.clientHeight, 0.01, 10);
+        this.initCamera()
+        this.initScene()
+        this.initRenderer()
+        this.initLight()
+        this.initMesh()
+        container.appendChild(this.renderer.domElement);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        window.addEventListener( 'resize', this.onWindowResize, false );
+      },
+      // 定义相机
+      initCamera() {
+        this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
         this.camera.position.set(0.7, 0.5, 0.7);
-        // 定义场景
+      },
+      // 定义场景
+      initScene() {
         this.scene = new THREE.Scene();
-        // 定义物体
-        let geometry = new THREE.BoxGeometry(0.4, 0.4, 0.4);
-        // 定义材质
-        let material = new THREE.MeshLambertMaterial({ color: '#9aebff' })
-        // 加载物体与材质
-        this.mesh = new THREE.Mesh(geometry, material);
-        // 允许物体阴影
-        this.mesh.castShadow = true;
-        this.scene.add(this.mesh);
-        // 渲染器
+        // 建立坐标系
+        var axisHelper = new THREE.AxisHelper(1);
+        this.scene.add(axisHelper);
+      },
+      // 定义渲染器
+      initRenderer() {
         this.renderer = new THREE.WebGLRenderer({antialias: true});
-        // 渲染大小
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
         // 渲染器允许阴影
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.renderer.setClearColor('#f3ffe2', 1); //设置背景颜色
+      },
+      // 定义灯光
+      initLight() {
         // 平行光
         var light = new THREE.DirectionalLight("#ffffff", 1);
         light.position.set(-4, 7, -4);
@@ -55,6 +62,17 @@
         light.shadow.mapSize.width = 1024;
         light.shadow.mapSize.height = 1024;
         this.scene.add(light);
+      },
+      // 定义物体
+      initMesh() {
+        // 物体
+        let geometry = new THREE.BoxGeometry(0.4, 0.4, 0.4);
+        // 材质
+        let material = new THREE.MeshLambertMaterial({ color: '#9aebff' })
+        this.mesh = new THREE.Mesh(geometry, material);
+        // 允许物体阴影
+        this.mesh.castShadow = true;
+        this.scene.add(this.mesh);
         // 创建平面
         var planeGeometry = new THREE.PlaneGeometry(2, 2);
         var planeMaterial = new THREE.MeshLambertMaterial({color: '#f4faff'});
@@ -64,28 +82,18 @@
         plane.rotation.x = -Math.PI / 2; //旋转网格模型
         plane.position.set(0, -0.5, 0)
         this.scene.add(plane);
-        // 建立坐标系
-        var axisHelper = new THREE.AxisHelper(1);
-        this.scene.add(axisHelper);
-
-
-        container.appendChild(this.renderer.domElement);
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-
+      },
+      // 屏幕自适应
+      onWindowResize() {
+        console.log('onWindowResize')
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
       },
       animate() {
         requestAnimationFrame(this.animate);
         this.renderer.render(this.scene, this.camera);
       }
-    },
-    mounted() {
-      this.camera;
-      this.scene;
-      this.renderer;
-      this.mesh;
-      this.controls;
-      this.init();
-      this.animate()
     },
     beforeDestroy() {
       this.camera = null;
@@ -96,10 +104,3 @@
     }
   }
 </script>
-<style scoped>
-  #container {
-    margin: 0 auto 0 0 ;
-    width: 600px;
-    height: 400px;
-  }
-</style>

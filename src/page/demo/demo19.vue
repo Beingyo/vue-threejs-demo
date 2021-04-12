@@ -1,9 +1,8 @@
 <template>
-  <div style="width: 100%">
+  <div>
     <div id="container"></div>
   </div>
 </template>
-
 <script>
   import * as THREE from 'three'
   import {OrbitControls} from "three/examples/jsm/controls/OrbitControls"
@@ -14,34 +13,55 @@
         step: 0.005
       }
     },
+    mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.light;
+      this.line;
+      this.points;
+      this.init();
+      this.animate()
+    },
     methods: {
       init() {
         let container = document.getElementById('container');
-        // 定义相机
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 5000);
-        this.camera.position.set(0, 400, 1000);
-        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        // 定义场景
-        this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color('#050505');
-        this.scene.fog = new THREE.Fog('#050505', 2000, 3500);
-        // 渲染器
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-        // 加载物体
-        this.initGeometry()
-
-        // 控制器
+        this.initCamera()
+        this.initScene()
+        this.initRenderer()
+        this.initLight()
+        this.initMesh()
         container.appendChild(this.renderer.domElement);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-
         window.addEventListener( 'resize', this.onWindowResize, false );
-
         // 添加惯性
         this.controls.enableDamping = true;
       },
-      initGeometry() {
+      // 定义相机
+      initCamera() {
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 5000);
+        this.camera.position.set(0, 400, 1000);
+        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+      },
+      // 定义场景
+      initScene() {
+        this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color('#050505');
+        this.scene.fog = new THREE.Fog('#050505', 2000, 3500);
+      },
+      // 定义渲染器
+      initRenderer() {
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+      },
+      // 定义灯光
+      initLight() {
+
+      },
+      // 定义物体
+      initMesh() {
         /* 500000个点 */
         let particles = 500000;
         /* 存放粒子数据的网格 */
@@ -103,18 +123,6 @@
         this.renderer.render(this.scene, this.camera);
       }
     },
-    mounted() {
-      this.camera;
-      this.scene;
-      this.renderer;
-      this.mesh;
-      this.controls;
-      this.light;
-      this.line;
-      this.points;
-      this.init();
-      this.animate()
-    },
     beforeDestroy() {
       this.camera = null;
       this.scene = null;
@@ -127,10 +135,3 @@
     }
   }
 </script>
-<style scoped>
-  #container {
-    margin: 0 auto 0 0;
-    width: 600px;
-    height: 400px;
-  }
-</style>

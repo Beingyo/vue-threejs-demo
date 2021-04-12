@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%">
+  <div>
     <div id="container"></div>
   </div>
 </template>
@@ -11,23 +11,54 @@
   export default {
     data() {
       return {
-        // camera: null,
-        // scene: null,
-        // renderer: null,
-        // mesh: null,
-        // controls: null,
-        // points: null,
         count: 0,
       }
+    },
+    mounted() {
+      this.camera;
+      this.scene;
+      this.renderer;
+      this.mesh;
+      this.controls;
+      this.points;
+      this.init();
+      this.animate()
     },
     methods: {
       init: function () {
         let container = document.getElementById('container');
-        // 定义相机
-        this.camera = new THREE.PerspectiveCamera(60, container.clientWidth/container.clientHeight, 1, 1000);
+        this.initCamera()
+        this.initScene()
+        this.initRenderer()
+        this.initLight()
+        this.initMesh()
+        container.appendChild(this.renderer.domElement);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+        window.addEventListener( 'resize', this.onWindowResize, false );
+      },
+      // 定义相机
+      initCamera() {
+        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
         this.camera.position.set(0,0,250);
-        // 定义场景
+      },
+      // 定义场景
+      initScene() {
         this.scene = new THREE.Scene();
+      },
+      // 定义渲染器
+      initRenderer() {
+        this.renderer = new THREE.WebGLRenderer({antialias: true});
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        // this.renderer.setClearColor('#ffffff', 1);
+      },
+      // 定义灯光
+      initLight() {
+        // 环境光
+        var light = new THREE.AmbientLight('#ffffff', 0.9);
+        this.scene.add(light);
+      },
+      // 定义物体
+      initMesh() {
         // 三维样条曲线CatmullRomCurve3创建一个曲线路径
         var curve = new THREE.CatmullRomCurve3([
           new THREE.Vector3(-500, 200, 900),
@@ -39,27 +70,19 @@
         ]);
         // 从曲线上获得501个顶点，数量根据需要自己设置
         this.points = curve.getPoints(500);
-
-        // 定义物体
+        // 物体
         let geometry = new THREE.TubeGeometry(curve, 200, 30, 50);
-        // 定义材质
+        // 材质
         let material = new THREE.MeshNormalMaterial();
-        // 加载物体与材质
         this.mesh = new THREE.Mesh(geometry, material);
         this.scene.add(this.mesh);
-        // 加载环境光
-        var light = new THREE.AmbientLight('#ffffff', 0.9);
-        this.scene.add(light);
-        // 渲染器
-        this.renderer = new THREE.WebGLRenderer({antialias: true});
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
-        // 设置背景颜色
-        // this.renderer.setClearColor('#ffffff', 1);
-
-        container.appendChild(this.renderer.domElement);
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-
-
+      },
+      // 屏幕自适应
+      onWindowResize() {
+        console.log('onWindowResize')
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
       },
       animate: function () {
         requestAnimationFrame(this.animate);
@@ -72,16 +95,6 @@
         this.camera.lookAt(new THREE.Vector3(this.points[this.count + 1].x, this.points[this.count + 1].y, this.points[this.count + 1].z));
         this.renderer.render(this.scene, this.camera);
       }
-    },
-    mounted() {
-      this.camera;
-      this.scene;
-      this.renderer;
-      this.mesh;
-      this.controls;
-      this.points;
-      this.init();
-      this.animate()
     },
     beforeDestroy() {
       this.camera = null;
