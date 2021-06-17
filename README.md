@@ -90,3 +90,7 @@
 >  #### 绘制地图
 >
 > ![avatar](https://github.com/Beingyo/imgRepository/blob/main/img/vue-threejs-demo/demo20.png)
+>
+>  #### 精灵贴图
+>
+> ![avatar](https://github.com/Beingyo/imgRepository/blob/main/img/vue-threejs-demo/demo21.png)
