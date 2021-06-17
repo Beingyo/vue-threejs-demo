@@ -29,6 +29,7 @@ export default new Router({
     {path: '/demo18', name: 'demo18', meta: {title: 'demo18'}, component: () => import('@/page/demo/demo18')},
     {path: '/demo19', name: 'demo19', meta: {title: 'demo19'}, component: () => import('@/page/demo/demo19')},
     {path: '/demo20', name: 'demo20', meta: {title: 'demo20'}, component: () => import('@/page/demo/demo20')},
+    {path: '/demo21', name: 'demo21', meta: {title: 'demo21'}, component: () => import('@/page/demo/demo21')},
 
     {path: '/test1', name: 'test1', component: test1}
   ]

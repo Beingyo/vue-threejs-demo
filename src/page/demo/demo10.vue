@@ -84,7 +84,7 @@
         this.camera.updateProjectionMatrix();
         this.renderer.setSize( window.innerWidth, window.innerHeight );
       },
-      animate: function () {
+      animate() {
         requestAnimationFrame(this.animate);
         if (this.count <= this.points.length) {
           this.count ++
